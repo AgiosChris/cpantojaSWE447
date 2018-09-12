@@ -19,8 +19,8 @@ function init() {
 }
 
 function render() {
-    cone.render();
     gl.clear( gl.COLOR_BUFFER_BIT );
+    cone.render();
 }
 
 window.onload = init;
