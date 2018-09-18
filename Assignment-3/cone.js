@@ -3,8 +3,6 @@ var cone = null;
 
 function init() {
     var canvas = document.getElementById( "webgl-canvas" );
-    
-
 
     gl = WebGLUtils.setupWebGL( canvas );
 
@@ -13,8 +11,10 @@ function init() {
         return;
     }
 
-    gl.clearColor( 1.0, 0.5, 1.0, 1.5 );
-    cone= new Cone (gl, n);
+    gl.clearColor( 1.0, 0.3, 0.1, 1.0 );
+    
+    cone = new Cone( gl, 10 );
+    
     render();
 }
 
@@ -24,3 +24,4 @@ function render() {
 }
 
 window.onload = init;
+
