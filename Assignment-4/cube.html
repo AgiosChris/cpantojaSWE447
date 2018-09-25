@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -12,7 +12,9 @@
 
 <script id="Cube-vertex-shader" type="x-shader/x-vertex">
 attribute vec4 vPosition;
-varing vec3 fColor;
+attribute vec3 vColor;
+varying vec4 fColor;
+
 
 uniform mat4 MV;
 
@@ -20,15 +22,18 @@ void main()
 {
     gl_PointSize = 5.0;
     gl_Position = MV * vPosition;
+    fColor = vec4(vColor, 1.0);
+
 }
 </script>
 
 <script id="Cube-fragment-shader" type="x-shader/x-fragment">
+precision highp float;
+varying vec4 fColor;
 
 void main()
 {
-    
-    gl_FragColor = vec4(1.0, 0.0, gl_FrontFacing ? 1.0 : 0.0, 1.0);
+    gl_FragColor = fColor; 
 }
 </script>
 </head>
