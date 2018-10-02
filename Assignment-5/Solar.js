@@ -20,7 +20,7 @@ var Planets = {
   Sun : undefined,
   // Mercury : undefined,
   // Venus : undefined,
-  // Earth : undefined,
+  Earth : undefined,
   // Moon : undefined,
   // Mars : undefined,
   // Jupiter : undefined,
@@ -127,7 +127,7 @@ function render() {
   // "planet" variable is set for each object, you will need to set this
   // for each planet separately.
 
-  planet.PointMode = false;
+  planet.PointMode = true;
 
   // Use the matrix stack to configure and render a planet.  How you rener
   // each planet will be similar, but not exactly the same.  In particular,
@@ -146,6 +146,19 @@ function render() {
   //
   //  Add your code for more planets here!
   //
+  
+  name = "Earth";
+  planet = Planets[name];
+  data = SolarSystem[name];
+  planet.PointMode = false;
+  ms.push();
+  ms.scale(data.radius);
+  gl.useProgram(planet.program);
+  gl.uniformMatrix4fv(planet.uniforms.MV, false, flatten(ms.current()));
+  gl.uniformMatrix4fv(planet.uniforms.P, false, flatten(P));
+  gl.uniform4fv(planet.uniforms.color, flatten(data.color));
+  planet.render();
+  ms.pop();
 
   window.requestAnimationFrame(render);
 }
