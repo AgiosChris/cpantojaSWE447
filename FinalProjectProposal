@@ -1,0 +1,20 @@
+1. An overview of your project, summarized in a short paragraph.  For example, if you're idea for
+your final project was to draw a solar system (which we've already done in class, so you can't 
+use this example — be creative!)
+    
+    For my final project, my ideal project would be having an atom with the electrons moving around the protons.
+    For a new shape, I would implement a cylindar or a rectangle glass to have the atom inside of it.
+    
+2. A sequence of steps for implementing your project.  You have five weeks for completing the 
+project (presentations will be done in class on May 1st),  (that does not include this coming 
+week, which is for writing this proposal) so breakdown your project into five chunks.
+    
+    Week 1; Get code from solarsystem.js to have circles float around the nucleus
+    Week 2; Get a few protons and neurons to stay in the center while electrons move around them
+    Week 3; Scale down the circles and position the protons, change their colors
+    Week 4; Add light to show the circles as spheres.
+    Week 5; Learn how to make a seethrough glass cylindar and have the atom in the moddle
+    
+3. How you're intending to implement your application.
+
+    I will be using Three.js.
