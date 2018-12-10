@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My first and final, final project app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+<body>
+<script src="../Common/three.js"></script>
+<script src="../Common/webgl-utils.js"></script>
+<script src="../Common/initShaders.js"></script>
+<script src="../Common/OrbitControls.js"></script>
+
+<script>
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+
+	var scene = new THREE.Scene();
+
+	var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+
+	var controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+	//controls.update() must be called after any manual changes to the camera's transform
+	camera.position.set( 0, 40, 100 );
+	//controls.autoRotate = true;
+	//controls.autoRotateSpeed = 10.0;
+	controls.update();
+	document.addEventListener("keydown", onDocumentKeyDown, false);
+	function onDocumentKeyDown(event) {
+		var keyCode = event.which;
+		if(keyCode == 82){
+			camera.position.set( 0, 100, 100 );
+		}	
+	}
+
+
+	//Lighting
+	var ambLight = new THREE.AmbientLight(0xffffff, 1);
+	scene.add(ambLight);
+
+	var pointLight = new THREE.PointLight(0xffffff, 2, 700, 2);
+	pointLight.position.set(0,0,0);
+	pointLight.castShadow = true;
+	scene.add(pointLight);
+
+	//glass box
+	var boxGeometry = new THREE.BoxGeometry (20, 20, 20);
+	var boxGlass = new THREE.MeshLambertMaterial( {
+        color: 0xffffff,
+        opacity: 0.1,
+        transparent: true
+    } );
+	var boxMesh = new THREE.Mesh(boxGeometry, boxGlass);
+	scene.add(boxMesh);
+	
+	
+	//Atom
+	var atomGeometry = new THREE.SphereGeometry(1, 10, 10);
+	var atomMaterial = new THREE.MeshLambertMaterial( { color: 0xfff0ff } );
+	var atomMesh = new THREE.Mesh(atomGeometry, atomMaterial);
+	scene.add(atomMesh);
+
+	//electron-A
+	var electronAPivot = new THREE.Object3D();
+	atomMesh.add(electronAPivot);
+	var electronGeometry = new THREE.SphereGeometry(.5, 10, 10);
+	var electronMaterial = new THREE.MeshLambertMaterial( { color: 0xff00ff } );
+	var electronAMesh = new THREE.Mesh(electronGeometry, electronMaterial);
+	scene.add(electronAMesh);
+	electronAMesh.position.x = -5;
+	electronAPivot.add(electronAMesh);
+
+	//electron-B
+	var electronBPivot = new THREE.Object3D();
+	atomMesh.add(electronBPivot);
+	var electronGeometry = new THREE.SphereGeometry(.5, 10, 10);
+	var electronMaterial = new THREE.MeshLambertMaterial( { color: 0xff000f } );
+	var electronBMesh = new THREE.Mesh(electronGeometry, electronMaterial);
+	scene.add(electronBMesh);
+	electronBMesh.position.x = -4;
+	electronBPivot.add(electronBMesh);
+	
+	//electron-C
+	var electronCPivot = new THREE.Object3D();
+	atomMesh.add(electronCPivot);
+	var electronGeometry = new THREE.SphereGeometry(.5, 10, 10);
+	var electronMaterial = new THREE.MeshLambertMaterial( { color: 0xffff0f } );
+	var electronCMesh = new THREE.Mesh(electronGeometry, electronMaterial);
+	scene.add(electronCMesh);
+	electronCMesh.position.x = -3;
+	electronCPivot.add(electronCMesh);
+	
+	//electron-D
+	var electronDPivot = new THREE.Object3D();
+	atomMesh.add(electronDPivot);
+	var electronGeometry = new THREE.SphereGeometry(.5, 10, 10);
+	var electronMaterial = new THREE.MeshLambertMaterial( { color: 0xffff0f } );
+	var electronDMesh = new THREE.Mesh(electronGeometry, electronMaterial);
+	scene.add(electronDMesh);
+	electronDMesh.position.x = 3;
+	electronDPivot.add(electronDMesh);
+	
+	//electron-E
+	var electronEPivot = new THREE.Object3D();
+	atomMesh.add(electronEPivot);
+	var electronGeometry = new THREE.SphereGeometry(.5, 10, 10);
+	var electronMaterial = new THREE.MeshLambertMaterial( { color: 0xff000f } );
+	var electronEMesh = new THREE.Mesh(electronGeometry, electronMaterial);
+	scene.add(electronEMesh);
+	electronEMesh.position.x = 4;
+	electronEPivot.add(electronEMesh);
+	
+	//electron-F
+	var electronFPivot = new THREE.Object3D();
+	atomMesh.add(electronFPivot);
+	var electronGeometry = new THREE.SphereGeometry(.5, 10, 10);
+	var electronMaterial = new THREE.MeshLambertMaterial( { color: 0xff00ff } );
+	var electronFMesh = new THREE.Mesh(electronGeometry, electronMaterial);
+	scene.add(electronFMesh);
+	electronFMesh.position.x = 5;
+	electronFPivot.add(electronFMesh);
+	
+	let bounceControl = false;
+	let up = true;
+
+	var animate = function () {
+		requestAnimationFrame( animate );
+		controls.update();
+
+		//rotates atom mesh
+		atomMesh.rotation.y += .1;
+			
+		//Adds boundary to the bounce mechanic
+		if (up){
+			atomMesh.translateOnAxis(new THREE.Vector3(0, 1, 0).normalize(), 0.1)
+			if(atomMesh.position.y > 10) {
+				up = false;
+			}
+		}
+		else if (!up){
+			atomMesh.translateOnAxis(new THREE.Vector3(0, 1, 0).normalize(), -0.1)
+			if(atomMesh.position.y < -10) {
+				up = true;
+			}
+		}
+		else {
+			atomMesh.position.set(0, 0, 0);
+		}
+		
+		//rotate electrons on their pivot
+		electronAPivot.rotation.x += .1;
+		electronBPivot.rotation.z += .1;
+		electronCPivot.rotation.y += .05;
+		electronDPivot.rotation.y += .05;
+		electronEPivot.rotation.z += .1;
+		electronFPivot.rotation.x += .1;
+		
+		renderer.render( scene, camera );
+	};
+	
+	animate();
+</script>
+</body>
+</html>
